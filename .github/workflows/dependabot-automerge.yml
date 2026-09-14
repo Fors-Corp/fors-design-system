@@ -120,14 +120,26 @@ jobs:
       # next. `dependency-type` is fetch-metadata's own worst-case output
       # across the group (direct:production wins if ANY dependency in a
       # grouped PR is production), so this also covers a mixed group.
+      #
+      # GitHub Actions bumps are excluded: fetch-metadata reports every
+      # `uses:` bump as `direct:production` too (verified on PR #45's run:
+      # `package-ecosystem: github_actions`, `dependency-type:
+      # direct:production`), but a workflow pin never ships in the published
+      # package, so a package patch changeset for it would be a spurious
+      # release entry. `package-ecosystem` is parsed from the branch name
+      # (`dependabot/<ecosystem>/...`), so it is uniform across a grouped
+      # PR. Matched as `!= 'github_actions'` rather than
+      # `== 'npm_and_yarn'` so a missing/renamed ecosystem output falls back
+      # to adding a changeset, never to silently dropping one for a real
+      # production bump.
       - name: Checkout the Dependabot branch (manifest/lockfile only — never executed)
-        if: steps.gate.outputs.safe == 'true' && steps.metadata.outputs.dependency-type == 'direct:production'
+        if: steps.gate.outputs.safe == 'true' && steps.metadata.outputs.dependency-type == 'direct:production' && steps.metadata.outputs.package-ecosystem != 'github_actions'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Add a changeset for the production-dependency bump
-        if: steps.gate.outputs.safe == 'true' && steps.metadata.outputs.dependency-type == 'direct:production'
+        if: steps.gate.outputs.safe == 'true' && steps.metadata.outputs.dependency-type == 'direct:production' && steps.metadata.outputs.package-ecosystem != 'github_actions'
         env:
           DEPS_JSON: ${{ steps.metadata.outputs.updated-dependencies-json }}
           DEPENDENCY_NAMES: ${{ steps.metadata.outputs.dependency-names }}
