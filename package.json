@@ -113,7 +113,8 @@
     {
       "name": "Compiled CSS (brotli)",
       "path": "dist/styles.css",
-      "limit": "10 KB"
+      "limit": "10 KB",
+      "rolldown": false
     },
     {
       "name": "Icons entry (import * from icons.js, bundled Lucide subset, brotli)",
