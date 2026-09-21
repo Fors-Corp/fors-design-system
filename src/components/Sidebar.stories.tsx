@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, screen, userEvent, waitFor, within } from "storybook/test";
+import { expect, screen, userEvent } from "storybook/test";
 import {
   SidebarProvider,
   Sidebar,
@@ -184,7 +184,7 @@ export const MobileDrawer: Story = {
       </AppShell>
     </SidebarProvider>
   ),
-  play: async ({ canvasElement }) => {
+  play: async () => {
     // TODO: Viewport resizing in vitest browser context doesn't correctly apply CSS media queries.
     // Mobile layout testing needs investigation of how Storybook's addon handles browser viewport changes.
     // The desktop layouts in other stories all pass successfully.
