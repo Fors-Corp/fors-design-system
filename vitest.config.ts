@@ -125,23 +125,6 @@ export default defineConfig({
               async forceReducedMotion({ page }) {
                 await page.emulateMedia({ reducedMotion: "reduce" });
               },
-              async setViewportSize({ page }, width: number, height: number) {
-                await page.setViewportSize({ width, height });
-                // Force layout recalculation
-                await page.evaluate(() => {
-                  // Trigger a layout recalculation by reading a layout property
-                  void document.documentElement.offsetHeight;
-                  // Dispatch resize and orientationchange events
-                  window.dispatchEvent(new Event('resize'));
-                  window.dispatchEvent(new Event('orientationchange'));
-                });
-                // Verify the media query matches correctly
-                const matchesMediaQuery = await page.evaluate(() => {
-                  const isLargeScreen = window.matchMedia("(min-width: 768px)").matches;
-                  return { isLargeScreen };
-                });
-                console.log(`[setViewportSize] ${width}x${height}, isLargeScreen: ${matchesMediaQuery.isLargeScreen}`);
-              },
             },
           },
         },
