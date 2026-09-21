@@ -79,6 +79,11 @@ function DemoNav() {
 }
 
 export const Default: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: "default",
+    },
+  },
   render: () => (
     <SidebarProvider>
       <AppShell>
@@ -95,6 +100,11 @@ export const Default: Story = {
 };
 
 export const Collapsed: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: "default",
+    },
+  },
   render: () => (
     <SidebarProvider defaultCollapsed>
       <AppShell>
@@ -121,6 +131,11 @@ export const Collapsed: Story = {
  * collapsed rail width.
  */
 export const ToggleCollapse: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: "default",
+    },
+  },
   render: () => (
     <SidebarProvider>
       <AppShell>
@@ -170,6 +185,8 @@ export const MobileDrawer: Story = {
     </SidebarProvider>
   ),
   play: async ({ canvasElement }) => {
+    // Wait for viewport resize and CSS media queries to settle after story mount
+    await new Promise((resolve) => setTimeout(resolve, 300));
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole("button", { name: "Open navigation" });
     await userEvent.click(trigger);
@@ -183,6 +200,11 @@ export const MobileDrawer: Story = {
 
 /** Full composition: a real page shell with a collapsible desktop sidebar and a mobile drawer. */
 export const AppShellExample: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: "default",
+    },
+  },
   render: () => (
     <SidebarProvider>
       <AppShell>

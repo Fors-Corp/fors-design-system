@@ -145,6 +145,45 @@ const preview: Preview = {
     }));
     await commands?.forceReducedMotion?.();
 
+    // Resize the browser to match the story's viewport. Stories specify their
+    // desired viewport via `parameters.viewport.defaultViewport` and
+    // `parameters.viewport.options` — use those to resize the Playwright
+    // browser page before the story mounts, so CSS media queries work correctly
+    // (e.g., `md:hidden` and `md:flex`).
+    const viewportParams = context.parameters.viewport as
+      | {
+          options?: Record<string, { name: string; styles?: Record<string, string> }>;
+          defaultViewport?: string;
+        }
+      | undefined;
+    const globalViewportParams = preview.parameters?.viewport as
+      | {
+          options?: Record<string, { name: string; styles?: Record<string, string> }>;
+          defaultViewport?: string;
+        }
+      | undefined;
+    
+    // Merge story-level and global viewport options, with story-level taking precedence
+    const allViewportOptions = {
+      ...(globalViewportParams?.options || {}),
+      ...(viewportParams?.options || {}),
+    };
+    
+    // Use story-level defaultViewport if defined, otherwise fall back to global
+    const viewportName = viewportParams?.defaultViewport || globalViewportParams?.defaultViewport;
+    
+    if (viewportName && allViewportOptions[viewportName]) {
+      const viewportDef = allViewportOptions[viewportName];
+      const styles = viewportDef.styles || {};
+      const width = parseInt(styles.width || "1280", 10);
+      const height = parseInt(styles.height || "720", 10);
+      if (commands?.setViewportSize) {
+        await commands.setViewportSize(width, height);
+        // Allow browser time to re-evaluate CSS media queries after viewport change
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+    }
+
     // @storybook/addon-vitest composes+mounts each story straight into the
     // current page and never tears the previous one down between tests in
     // the same file (unlike @storybook/test-runner, which navigated to a
