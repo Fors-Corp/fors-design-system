@@ -53,7 +53,7 @@ jobs:
   automerge:
     name: Auto-merge (patch/minor only)
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'marcfs31/fors-design-system'
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'Fors-Corp/fors-design-system'
     steps:
       - name: Read Dependabot metadata
         id: metadata

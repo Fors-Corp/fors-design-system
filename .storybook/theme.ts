@@ -9,7 +9,7 @@ import { create, type ThemeVars } from "storybook/theming";
  */
 const shared = {
   brandTitle: "Fors Design System",
-  brandUrl: "https://marcfs31.github.io/fors-design-system/",
+  brandUrl: "https://fors-corp.github.io/fors-design-system/",
   fontBase: '"Inter", system-ui, -apple-system, sans-serif',
   fontCode: '"JetBrains Mono", ui-monospace, "SFMono-Regular", monospace',
   appBorderRadius: 8,
