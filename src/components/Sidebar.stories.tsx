@@ -19,6 +19,12 @@ const meta: Meta = {
   parameters: {
     layout: "fullscreen",
     a11y: { config: { rules: [{ id: "region", enabled: true }] } },
+    viewport: {
+      options: {
+        desktop: { name: "Desktop", styles: { width: "1280px", height: "720px" } },
+      },
+      defaultViewport: "desktop",
+    },
   },
 };
 export default meta;
