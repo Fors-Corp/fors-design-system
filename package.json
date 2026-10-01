@@ -2,7 +2,7 @@
   "name": "@marcfs31/fors-design-system",
   "version": "2.2.1",
   "private": false,
-  "description": "Marc Fors design system — brand tokens and React components.",
+  "description": "Marc Fors design system \u2014 brand tokens and React components.",
   "author": "Marc Fors <developer@marcfors.com>",
   "license": "UNLICENSED",
   "type": "module",
@@ -203,6 +203,7 @@
     "uuid": "^11.1.1",
     "tsup": {
       "esbuild": "^0.28.1"
-    }
+    },
+    "brace-expansion": "^5.0.12"
   }
 }
