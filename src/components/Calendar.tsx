@@ -183,6 +183,11 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={value}
+          // Open on the selected date's month, not react-day-picker's default
+          // of today's — otherwise a picker holding an out-of-month value shows
+          // a grid its own selection isn't in. Uncontrolled, so `undefined`
+          // (nothing selected) still falls back to today.
+          defaultMonth={value}
           onSelect={(date) => {
             onValueChange?.(date);
             setOpen(false);
