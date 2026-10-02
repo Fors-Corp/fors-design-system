@@ -1,4 +1,12 @@
-# @marcfs31/fors-design-system
+# @fors-corp/fors-design-system
+
+> **Note — 2.2.1 and 2.2.2 were never published.** The repository had moved to
+> the `Fors-Corp` organisation, and GitHub Packages ties a scope to its owner, so
+> a Fors-Corp repository's `GITHUB_TOKEN` could not publish into the user-owned
+> `@marcfs31` scope. Both releases failed with `403 permission_denied`, leaving
+> the registry at 2.2.0 (11 Sept 2026) and these two versions untagged. The fix
+> was to rename the package to `@fors-corp/fors-design-system`; the changes
+> described under both headings ship in 3.0.0.
 
 ## 2.2.2
 

@@ -49,9 +49,17 @@ function findFiles(dir, re, out = []) {
 }
 
 // 1. Pack the package exactly as publish would (honours `files`/`exports`).
-for (const old of findFiles(fixture, /^marcfs31-fors-design-system-.*\.tgz$/)) rmSync(old);
+//    `npm pack` derives the filename from the package name, dropping the
+//    scope's "@" and turning its "/" into "-" — so this is computed, not
+//    hardcoded: a scope rename (as at v3.0.0) would otherwise leave this
+//    pattern matching nothing and fail with a misleading "produced no
+//    tarball" rather than pointing at the rename.
+const pkgName = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8")).name;
+const tarballPrefix = pkgName.replace(/^@/, "").replace(/\//g, "-");
+const tarballRe = new RegExp(`^${tarballPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}-.*\\.tgz$`);
+for (const old of findFiles(fixture, tarballRe)) rmSync(old);
 run(npm, ["pack", "--silent", "--pack-destination", fixture], root);
-const [tarball] = findFiles(fixture, /^marcfs31-fors-design-system-.*\.tgz$/);
+const [tarball] = findFiles(fixture, tarballRe);
 if (!tarball) throw new Error("npm pack produced no tarball");
 
 // 2. Install the fixture's own deps (Next/React/Tailwind), then the tarball

@@ -1,6 +1,6 @@
 # Third-party notices
 
-The `@marcfs31/fors-design-system/icons` entry bundles a curated subset of
+The `@fors-corp/fors-design-system/icons` entry bundles a curated subset of
 [Lucide](https://lucide.dev) (`lucide-react`). Lucide is distributed under the
 ISC License; icons derived from the Feather project are additionally covered
 by the MIT License. Both notices are reproduced below as required.

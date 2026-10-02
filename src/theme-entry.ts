@@ -1,7 +1,7 @@
-// Server-safe entry: "@marcfs31/fors-design-system/theme". No "use client" — these
+// Server-safe entry: "@fors-corp/fors-design-system/theme". No "use client" — these
 // are pure functions and data, callable from a React Server Component (e.g. a
 // Next.js `app/layout.tsx` to emit the anti-flash script). The component
-// bundle ("@marcfs31/fors-design-system") is a separate client entry.
+// bundle ("@fors-corp/fors-design-system") is a separate client entry.
 
 export {
   FORS_THEMES,

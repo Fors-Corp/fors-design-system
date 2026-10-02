@@ -1,5 +1,5 @@
 {
-  "name": "@marcfs31/fors-design-system",
+  "name": "@fors-corp/fors-design-system",
   "version": "2.2.2",
   "private": false,
   "description": "Marc Fors design system \u2014 brand tokens and React components.",
@@ -71,11 +71,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marcfs31/fors-design-system.git"
+    "url": "git+https://github.com/Fors-Corp/fors-design-system.git"
   },
-  "homepage": "https://marcfs31.github.io/fors-design-system/",
+  "homepage": "https://fors-corp.github.io/fors-design-system/",
   "bugs": {
-    "url": "https://github.com/marcfs31/fors-design-system/issues"
+    "url": "https://github.com/Fors-Corp/fors-design-system/issues"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

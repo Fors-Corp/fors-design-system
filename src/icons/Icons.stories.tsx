@@ -13,7 +13,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Curated, Fors-named icon set exported from `@marcfs31/fors-design-system/icons`. Icons are named by what they mean in a Fors app (`IconTrash`, `IconReceipt`), default to 20px / 1.75 stroke, inherit `currentColor`, and are decorative (`aria-hidden`) unless you pass `aria-hidden={false}` with `role="img"` and an `aria-label`.',
+          'Curated, Fors-named icon set exported from `@fors-corp/fors-design-system/icons`. Icons are named by what they mean in a Fors app (`IconTrash`, `IconReceipt`), default to 20px / 1.75 stroke, inherit `currentColor`, and are decorative (`aria-hidden`) unless you pass `aria-hidden={false}` with `role="img"` and an `aria-label`.',
       },
     },
   },
