@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/Fors-Corp/fors-design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/Fors-Corp/fors-design-system/actions/workflows/ci.yml)
 [![Storybook](https://img.shields.io/badge/Storybook-live-16C7B0)](https://fors-corp.github.io/fors-design-system/)
+[![Support · 1,99 €](https://img.shields.io/badge/Support-1%2C99_%E2%82%AC-2f855a)](https://marcfors.com/donate?from=fors-design-system)
 
 The design system behind Marc Fors's software: brand tokens and a React component library shared across every custom client app and in-house product Fors builds, so nothing starts from a blank Tailwind config again.
 
@@ -216,3 +217,5 @@ Every component has a Storybook story (with autodocs generating a props-table pa
 ## License
 
 Proprietary — All Rights Reserved. The source is published publicly for reference and transparency, but no license to use, copy, modify, or distribute it is granted except by separate written agreement with the copyright holder. See [LICENSE](LICENSE).
+
+If this project is useful to you, you can [support it with 1,99 €](https://marcfors.com/donate?from=fors-design-system).
