@@ -4,6 +4,21 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Time-based run of these same four jobs against main. Push- and PR-triggered
+  # CI only ever proves main was green *at the last push*, which is not the same
+  # as green today: two classes of breakage arrive with the calendar, not with a
+  # commit. Both bit on 2026-10-01, and nothing noticed for 11 days because main
+  # had no push between 21 Sept and 2 Oct:
+  #   - a date-dependent test (the Calendar story asserted a September day cell
+  #     while the grid opens on the current month — fine all September, red on
+  #     1 October; see #71), and
+  #   - a newly published advisory (`audit` started failing on brace-expansion
+  #     GHSA-q2hr-2g5m-vwhr with no change to this repo at all).
+  # A daily run surfaces either within a day. Deliberately the existing jobs
+  # rather than a separate workflow: duplicating them would let the scheduled
+  # copy drift from the ones branch protection actually requires.
+  schedule:
+    - cron: "17 6 * * *" # 06:17 UTC daily — off the hour, GitHub throttles :00
 
 # CI never writes to the repo — pin the token to read-only.
 permissions:
