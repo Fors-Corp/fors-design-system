@@ -165,7 +165,7 @@ jobs:
 
           {
             echo '---'
-            echo '"@marcfs31/fors-design-system": patch'
+            echo '"@fors-corp/fors-design-system": patch'
             echo '---'
             echo
             echo "Bump ${DEPENDENCY_NAMES} (production dependency)."

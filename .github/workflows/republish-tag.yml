@@ -1,10 +1,12 @@
 name: Republish tag
 
 # Maintenance: publish an already-tagged version under the package's
-# *current* name. Exists because the package was renamed at v2.0.0
-# (@marcfs31/design-system → @marcfs31/fors-design-system) and GitHub
-# Packages cannot rename a package — the 1.x history is re-published under
-# the new name instead. Nothing is rebuilt from a moving branch: each run
+# *current* name. Exists because the package has been renamed twice —
+# @marcfs31/design-system → @marcfs31/fors-design-system at v2.0.0, then
+# → @fors-corp/fors-design-system at v3.0.0 (the org transfer: a Fors-Corp
+# repo's GITHUB_TOKEN cannot publish into the user-owned @marcfs31 scope) —
+# and GitHub Packages cannot rename a package, so older history is
+# re-published under the current name instead. Nothing is rebuilt from a moving branch: each run
 # checks out the exact release tag, only swaps the `name` field, builds and
 # smoke-tests that tag's own code, then publishes it under `dist_tag` so the
 # `latest` dist-tag is never moved off the current release.
@@ -36,7 +38,7 @@ jobs:
         with:
           node-version: 22
           registry-url: https://npm.pkg.github.com
-          scope: "@marcfs31"
+          scope: "@fors-corp"
       # The package's current name comes from main, not from the old tag.
       - id: current
         run: echo "name=$(node -p "require('./package.json').name")" >> "$GITHUB_OUTPUT"
