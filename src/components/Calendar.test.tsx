@@ -98,6 +98,18 @@ describe("DatePicker", () => {
     ).toBeInTheDocument();
   });
 
+  it("opens on defaultMonth's month when nothing is selected", async () => {
+    render(<DatePicker defaultMonth={new Date(2026, 0, 15)} />);
+    await userEvent.click(screen.getByRole("button", { name: "Pick a date" }));
+    expect(await screen.findByRole("grid", { name: /January 2026/i })).toBeInTheDocument();
+  });
+
+  it("prefers the selected value's month over defaultMonth", async () => {
+    render(<DatePicker value={new Date(2026, 8, 8)} defaultMonth={new Date(2026, 0, 15)} />);
+    await userEvent.click(screen.getByRole("button", { name: /^Selected date:/ }));
+    expect(await screen.findByRole("grid", { name: /September 2026/i })).toBeInTheDocument();
+  });
+
   it("lets formatValue override the trigger text entirely", () => {
     render(
       <DatePicker
