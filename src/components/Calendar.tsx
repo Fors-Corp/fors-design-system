@@ -117,6 +117,12 @@ export interface DatePickerProps {
   locale?: DayPickerProps["locale"];
   /** Custom trigger text for a selected date — overrides the `Intl.DateTimeFormat` default. */
   formatValue?: (date: Date) => string;
+  /**
+   * Month the grid opens on when nothing is selected. With a `value` the grid
+   * opens on that date's month, so this is only needed for the empty state
+   * (and to keep stories/screenshots independent of the current date).
+   */
+  defaultMonth?: Date;
 }
 
 const CALENDAR_ICON = (
@@ -153,6 +159,7 @@ export function DatePicker({
   id,
   locale,
   formatValue,
+  defaultMonth,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const label = value
@@ -185,9 +192,9 @@ export function DatePicker({
           selected={value}
           // Open on the selected date's month, not react-day-picker's default
           // of today's — otherwise a picker holding an out-of-month value shows
-          // a grid its own selection isn't in. Uncontrolled, so `undefined`
-          // (nothing selected) still falls back to today.
-          defaultMonth={value}
+          // a grid its own selection isn't in. Uncontrolled, so with neither a
+          // value nor a `defaultMonth` it still falls back to today.
+          defaultMonth={value ?? defaultMonth}
           onSelect={(date) => {
             onValueChange?.(date);
             setOpen(false);
