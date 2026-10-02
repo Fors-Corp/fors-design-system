@@ -8,6 +8,18 @@
 > was to rename the package to `@fors-corp/fors-design-system`; the changes
 > described under both headings ship in 3.0.0.
 
+## 3.0.1
+
+### Patch Changes
+
+- 80e2c86: Bump lucide-react (production dependency).
+  
+  - `lucide-react`: 1.47.0 -> 1.49.0
+  
+  `lucide-react` backs the `/icons` entry and installs with this package, so a
+  bump here reaches consumers and gets a changelog entry rather than shipping
+  silently.
+
 ## 3.0.0
 
 ### Major Changes
