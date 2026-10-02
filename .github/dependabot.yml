@@ -15,23 +15,24 @@ updates:
         patterns:
           - "@radix-ui/*"
 
-      # Verified against the real package.json (2026-09-09), not transcribed
-      # from an older list: the current Storybook-8 devDependency set is
-      # storybook, @storybook/addon-a11y, @storybook/addon-essentials,
-      # @storybook/react, @storybook/react-vite, @storybook/test, and
-      # @storybook/test-runner. There is no @storybook/addon-docs or
-      # @storybook/addon-vitest yet — PR #6 (an open Dependabot PR bumping
-      # this exact group 8.6.18 -> 10.6.0) shows the Storybook-9/vitest-addon
-      # migration has NOT landed. Update this list when that migration merges.
+      # Verified against the real package.json (2026-10-02). The Storybook-9/
+      # vitest-addon migration HAS now landed (storybook 10.6.x), so the old
+      # Storybook-8 list here was stale: @storybook/addon-essentials,
+      # @storybook/test and @storybook/test-runner no longer exist in this
+      # repo, while @storybook/addon-docs and @storybook/addon-vitest do and
+      # were missing. That omission is what stranded the vitest group for
+      # three weeks: Dependabot bumped vitest to 5.0.1 while leaving
+      # @storybook/addon-vitest at 10.6.0, whose @vitest/browser peer capped
+      # at ^4 — an ERESOLVE that no peer bump inside the group could fix
+      # (see PR #46). These must move in lockstep.
       storybook:
         patterns:
           - "storybook"
           - "@storybook/addon-a11y"
-          - "@storybook/addon-essentials"
+          - "@storybook/addon-docs"
+          - "@storybook/addon-vitest"
           - "@storybook/react"
           - "@storybook/react-vite"
-          - "@storybook/test"
-          - "@storybook/test-runner"
 
       eslint:
         patterns:
@@ -41,9 +42,9 @@ updates:
           - "eslint-plugin-*"
           - "eslint-config-prettier"
 
-      # @vitest/browser is intentionally omitted: it isn't a dependency of
-      # this repo (verified against package.json) — only vitest,
-      # @vitest/coverage-v8 and vitest-axe are.
+      # All five are real devDependencies (verified 2026-10-02). The older
+      # note here claiming @vitest/browser is "intentionally omitted" was
+      # stale — it is both a dependency and listed below.
       vitest:
         patterns:
           - "vitest"
@@ -108,6 +109,14 @@ updates:
       - dependency-name: "tailwind-merge"
         update-types: ["version-update:semver-major"]
       - dependency-name: "tailwindcss-animate"
+        update-types: ["version-update:semver-major"]
+      # typescript majors are gated on the lint toolchain, not on this repo:
+      # typescript-eslint@8.71.0 (latest, no newer tag) peers
+      # `typescript >=4.8.4 <6.1.0`, so TS 7 cannot install alongside it.
+      # Dependabot raised this twice — #47 merged with the bump reverted, and
+      # #70 re-raised the identical unmergeable change. Revisit when
+      # typescript-eslint ships a TS-7 peer range.
+      - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
