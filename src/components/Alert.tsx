@@ -86,7 +86,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             aria-label={dismissLabel}
             // Negative logical margins pull the 36px hit area into the banner's
             // own padding, so a dismissible alert is no taller than a plain one.
-            className="-me-1 -mt-1 flex min-h-9 min-w-9 shrink-0 items-center justify-center rounded-sm opacity-80 transition-opacity duration-base hover:opacity-100 focus-visible:outline-none focus-visible:shadow-focus-ring"
+            className="-me-1 -mt-1 flex min-h-9 min-w-9 shrink-0 items-center justify-center rounded-sm opacity-80 transition-opacity duration-base hover:opacity-100 focus-visible:outline-hidden focus-visible:shadow-focus-ring"
           >
             {/* Inline, so the component bundle stays free of the icons entry's
                 Lucide dependency — same approach as Dialog and Toast. */}

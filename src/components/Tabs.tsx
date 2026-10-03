@@ -123,7 +123,7 @@ function Trigger({ className, value, ...props }: TabsTriggerProps) {
       tabIndex={selected ? 0 : -1}
       onClick={() => setValue(value)}
       className={cn(
-        "shrink-0 rounded-sm px-3 py-1.5 font-sans text-sm font-medium transition-colors duration-base focus-visible:outline-none focus-visible:shadow-focus-ring disabled:pointer-events-none disabled:opacity-50",
+        "shrink-0 rounded-sm px-3 py-1.5 font-sans text-sm font-medium transition-colors duration-base focus-visible:outline-hidden focus-visible:shadow-focus-ring disabled:pointer-events-none disabled:opacity-50",
         selected ? "bg-accent text-accent-fg" : "text-fg-secondary hover:text-fg",
         className
       )}
@@ -146,7 +146,7 @@ function Panel({ className, value, ...props }: TabsPanelProps) {
       aria-labelledby={triggerId(baseId, value)}
       tabIndex={0}
       className={cn(
-        "font-sans text-sm text-fg focus-visible:outline-none focus-visible:shadow-focus-ring",
+        "font-sans text-sm text-fg focus-visible:outline-hidden focus-visible:shadow-focus-ring",
         className
       )}
       {...props}
