@@ -92,7 +92,7 @@ export const ToastClose = React.forwardRef<
     ref={ref}
     aria-label="Dismiss"
     className={cn(
-      "absolute right-1 top-1 flex min-h-9 min-w-9 items-center justify-center rounded-sm opacity-60 transition-opacity duration-base hover:opacity-100 focus-visible:outline-none focus-visible:shadow-focus-ring",
+      "absolute right-1 top-1 flex min-h-9 min-w-9 items-center justify-center rounded-sm opacity-60 transition-opacity duration-base hover:opacity-100 focus-visible:outline-hidden focus-visible:shadow-focus-ring",
       className
     )}
     {...props}
