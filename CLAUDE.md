@@ -69,7 +69,7 @@ attempt on a later pass.
 Hitting an actual account usage/rate limit is an external stop I can't will
 past — a live conversation turn cannot resurrect itself mid-cutoff. What
 actually provides "wait and continue automatically" is the
-`dependabot-codeql-triage` scheduled task (created 2026-09-09, every 3 hours,
+`dependabot-codeql-triage` scheduled task (created 2026-09-09; weekly, Mondays 10:00 local, since 2026-10-04;
 `~/.claude/scheduled-tasks/dependabot-codeql-triage/SKILL.md`) — it fires
 independently of any one session, reads this file, and does one triage pass;
 if a given firing hits a usage limit or otherwise fails, the next scheduled
