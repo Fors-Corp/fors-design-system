@@ -1,6 +1,6 @@
 {
   "name": "@fors-corp/fors-design-system",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "private": false,
   "description": "Marc Fors design system — brand tokens and React components.",
   "author": "Marc Fors <developer@marcfors.com>",
