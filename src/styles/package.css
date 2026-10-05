@@ -1,19 +1,30 @@
 /**
- * Shipped stylesheet entry (compiled to dist/styles.css, exported as
- * "@fors-corp/fors-design-system/styles.css"). Deliberately omits:
- *  - `@tailwind base` — consumers run their own Tailwind Preflight; a library
- *    shouldn't inject a second global reset.
+ * Shipped stylesheet entry (compiled to dist/styles.css by
+ * scripts/build-css.mjs, exported as "@fors-corp/fors-design-system/styles.css").
+ * Deliberately omits:
+ *  - Tailwind's Preflight — consumers run their own; a library shouldn't
+ *    inject a second global reset.
+ *  - Tailwind's default theme variables — `theme(inline)` bakes the values
+ *    into the generated utilities instead of emitting `--spacing`,
+ *    `--text-sm`, … on :root, where they would compete with the consumer's
+ *    own Tailwind theme.
  *  - any webfont `@import` — no network calls from the shipped CSS (CSP-safe,
  *    framework-neutral). The type tokens fall back to system fonts until the
  *    consumer provides the "Inter" / "Space Grotesk" families (next/font,
  *    self-hosted, or the optional "@fors-corp/fors-design-system/fonts.css").
- * Includes the reduced-motion override so it still applies for consumers who
- * don't define their own.
+ * Utilities land in the `utilities` cascade layer, the same one a Tailwind v4
+ * consumer's own utilities use. Includes the reduced-motion override so it
+ * still applies for consumers who don't define their own.
  */
 @import "./tokens.css";
 
-@tailwind components;
-@tailwind utilities;
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) theme(inline);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@import "tw-animate-css";
+@import "./tailwind.css";
+
+@source "../**/*.{ts,tsx}";
 
 @media (prefers-reduced-motion: reduce) {
   *,
