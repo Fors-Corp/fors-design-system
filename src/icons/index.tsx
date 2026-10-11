@@ -4,11 +4,36 @@ import {
   ArchiveRestore,
   ArrowLeft,
   Banknote,
+  Bold,
   BrushCleaning,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Code,
+  Copy,
   Download,
   EllipsisVertical,
+  Eye,
+  EyeOff,
+  File,
+  FileText,
+  Folder,
+  Globe,
+  Heading1,
+  Heading2,
+  Heading3,
   History,
   House,
+  ImageIcon,
+  Italic,
+  Key,
+  Layers,
+  LayoutDashboard,
+  Link,
+  List,
+  ListOrdered,
   LogOut,
   Menu,
   Moon,
@@ -16,17 +41,23 @@ import {
   PackagePlus,
   Pencil,
   Plus,
+  Quote,
   Receipt,
+  Redo2,
   Save,
+  Search,
   Settings,
   ShoppingCart,
   Store,
+  Strikethrough,
   Sun,
   Tag,
   Trash,
   Trash2,
-  UserCheck,
+  Underline,
+  Undo2,
   Upload,
+  UserCheck,
   Users,
   X,
 } from "lucide-react";
@@ -93,3 +124,42 @@ export const IconPackage = /*#__PURE__*/ createIcon(Package, "IconPackage");
 export const IconTag = /*#__PURE__*/ createIcon(Tag, "IconTag");
 export const IconUsers = /*#__PURE__*/ createIcon(Users, "IconUsers");
 export const IconUserCheck = /*#__PURE__*/ createIcon(UserCheck, "IconUserCheck");
+
+// Content, files & media
+export const IconImage = /*#__PURE__*/ createIcon(ImageIcon, "IconImage");
+export const IconFile = /*#__PURE__*/ createIcon(File, "IconFile");
+export const IconFileText = /*#__PURE__*/ createIcon(FileText, "IconFileText");
+export const IconFolder = /*#__PURE__*/ createIcon(Folder, "IconFolder");
+export const IconKey = /*#__PURE__*/ createIcon(Key, "IconKey");
+export const IconCopy = /*#__PURE__*/ createIcon(Copy, "IconCopy");
+export const IconCheck = /*#__PURE__*/ createIcon(Check, "IconCheck");
+
+// Directional
+export const IconChevronUp = /*#__PURE__*/ createIcon(ChevronUp, "IconChevronUp");
+export const IconChevronDown = /*#__PURE__*/ createIcon(ChevronDown, "IconChevronDown");
+export const IconChevronLeft = /*#__PURE__*/ createIcon(ChevronLeft, "IconChevronLeft");
+export const IconChevronRight = /*#__PURE__*/ createIcon(ChevronRight, "IconChevronRight");
+
+// Text editing
+export const IconBold = /*#__PURE__*/ createIcon(Bold, "IconBold");
+export const IconItalic = /*#__PURE__*/ createIcon(Italic, "IconItalic");
+export const IconUnderline = /*#__PURE__*/ createIcon(Underline, "IconUnderline");
+export const IconStrikethrough = /*#__PURE__*/ createIcon(Strikethrough, "IconStrikethrough");
+export const IconHeading1 = /*#__PURE__*/ createIcon(Heading1, "IconHeading1");
+export const IconHeading2 = /*#__PURE__*/ createIcon(Heading2, "IconHeading2");
+export const IconHeading3 = /*#__PURE__*/ createIcon(Heading3, "IconHeading3");
+export const IconList = /*#__PURE__*/ createIcon(List, "IconList");
+export const IconListOrdered = /*#__PURE__*/ createIcon(ListOrdered, "IconListOrdered");
+export const IconQuote = /*#__PURE__*/ createIcon(Quote, "IconQuote");
+export const IconLink = /*#__PURE__*/ createIcon(Link, "IconLink");
+export const IconCode = /*#__PURE__*/ createIcon(Code, "IconCode");
+export const IconUndo = /*#__PURE__*/ createIcon(Undo2, "IconUndo");
+export const IconRedo = /*#__PURE__*/ createIcon(Redo2, "IconRedo");
+
+// Visibility, search & layout
+export const IconEye = /*#__PURE__*/ createIcon(Eye, "IconEye");
+export const IconEyeOff = /*#__PURE__*/ createIcon(EyeOff, "IconEyeOff");
+export const IconSearch = /*#__PURE__*/ createIcon(Search, "IconSearch");
+export const IconGlobe = /*#__PURE__*/ createIcon(Globe, "IconGlobe");
+export const IconLayoutDashboard = /*#__PURE__*/ createIcon(LayoutDashboard, "IconLayoutDashboard");
+export const IconLayers = /*#__PURE__*/ createIcon(Layers, "IconLayers");

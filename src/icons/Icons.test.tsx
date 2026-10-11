@@ -17,6 +17,45 @@ describe("icons", () => {
     }
   });
 
+  it("exports the admin batch (content, editor toolbar, directional and layout glyphs)", () => {
+    const admin = [
+      "Image",
+      "File",
+      "FileText",
+      "Folder",
+      "Key",
+      "Copy",
+      "Check",
+      "ChevronUp",
+      "ChevronDown",
+      "ChevronLeft",
+      "ChevronRight",
+      "Bold",
+      "Italic",
+      "Underline",
+      "Strikethrough",
+      "Heading1",
+      "Heading2",
+      "Heading3",
+      "List",
+      "ListOrdered",
+      "Quote",
+      "Link",
+      "Code",
+      "Undo",
+      "Redo",
+      "Eye",
+      "EyeOff",
+      "Search",
+      "Globe",
+      "LayoutDashboard",
+      "Layers",
+    ];
+    const names = ALL_ICONS.map(([name]) => name);
+    for (const glyph of admin) expect(names).toContain(`Icon${glyph}`);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   it.each(ALL_ICONS)("%s renders a decorative 20px svg by default", (_name, Icon) => {
     const { container } = render(<Icon />);
     const svg = container.querySelector("svg");
