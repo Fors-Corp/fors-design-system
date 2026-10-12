@@ -15,7 +15,7 @@ export type CalendarProps = DayPickerProps;
 const navButtonClass = cn(
   "inline-flex h-8 w-8 items-center justify-center rounded-md text-fg-muted transition-colors duration-base",
   "hover:bg-ink-surface-2 hover:text-fg",
-  "focus-visible:outline-none focus-visible:shadow-focus-ring",
+  "focus-visible:outline-hidden focus-visible:shadow-focus-ring",
   "disabled:pointer-events-none disabled:opacity-40"
 );
 
@@ -62,9 +62,9 @@ function CalendarDayButton({ className, day: _day, modifiers, ...props }: DayBut
       ref={ref}
       type="button"
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-sans text-fg outline-none transition-colors duration-base",
+        "inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-sans text-fg outline-hidden transition-colors duration-base",
         "hover:bg-ink-surface-2",
-        "focus-visible:outline-none focus-visible:shadow-focus-ring",
+        "focus-visible:outline-hidden focus-visible:shadow-focus-ring",
         modifiers.outside && "text-fg-muted opacity-50",
         modifiers.today && !modifiers.selected && "font-semibold text-accent",
         modifiers.selected && "bg-accent text-accent-fg hover:bg-accent-hover",
@@ -177,7 +177,7 @@ export function DatePicker({
           aria-label={value ? `Selected date: ${label}. Change date.` : placeholder}
           className={cn(
             "flex h-10 w-full items-center gap-2 rounded-md border border-ink-border bg-ink-surface px-3 text-sm font-sans transition-colors duration-base",
-            "focus-visible:outline-none focus-visible:shadow-focus-ring",
+            "focus-visible:outline-hidden focus-visible:shadow-focus-ring",
             value ? "text-fg" : "text-fg-muted",
             className
           )}

@@ -38,7 +38,7 @@ Then `npx changeset` → **minor** bump, summary describing the new component (t
 - **Variants via `class-variance-authority`** (`cva`), mirroring `Button.tsx` / `Alert.tsx`. Export `type ThingProps` extending the right `React.*HTMLAttributes` + `VariantProps<typeof thingVariants>`.
 - **`cn()` from `../lib/cn`** for all class composition. Never string-concatenate classes.
 - **Verbose JSDoc on the exported component** — say _when to use which variant_, and note any composition requirement (needs a provider, must wrap a parent, etc.). This becomes the Storybook description and, later, the design-agent-facing doc.
-- **Token classes only.** Allowed vocabulary: `bg-ink-{bg,surface,surface-2,border,border-subtle}`, `text-fg{,-secondary,-muted}`, `border-ink-{border,border-subtle}`, `bg-accent{,-hover,-active,-subtle}` / `text-accent{,-fg}`, `bg-spark*` / `text-spark*`, `bg-danger*`/`text-danger*` and the `success`/`warning` equivalents, `shadow-{sm,md,lg,focus-ring}`, `rounded-{sm,md,lg,xl}`, `duration-{fast,base}`, `font-{heading,sans,mono}`. **No raw hex, ever.** No new Tailwind config keys.
+- **Token classes only.** Allowed vocabulary: `bg-ink-{bg,surface,surface-2,border,border-subtle}`, `text-fg{,-secondary,-muted}`, `border-ink-{border,border-subtle}`, `bg-accent{,-hover,-active,-subtle}` / `text-accent{,-fg}`, `bg-spark*` / `text-spark*`, `bg-danger*`/`text-danger*` and the `success`/`warning` equivalents, `shadow-{sm,md,lg,focus-ring}`, `rounded-{sm,md,lg,xl}`, `duration-{fast,base}`, `font-{heading,sans,mono}`. **No raw hex, ever.** No new Tailwind theme keys.
 - **Logical properties, not physical ones**, for anything direction-sensitive: `text-start`/`text-end` (not `-left`/`-right`), `ms-*`/`me-*`/`ps-*`/`pe-*` (not `ml-*`/`mr-*`/`pl-*`/`pr-*`), `start-*`/`end-*` (not `left-*`/`right-*`), `border-s`/`border-e` (not `border-l`/`border-r`). A `translateX` needs explicit `ltr:`/`rtl:`-scoped values instead — see `Switch.tsx`. See CONTRIBUTING.md's "RTL" section.
 - **Overlays / positioned components** (anything that opens on click or hover — menus, dialogs, tooltips, popovers, comboboxes): build on a **Radix UI primitive**, restyle with token classes, and add `POPPER_ANIMATION_CLASSES` from `../lib/animation` to the content element. See `Popover.tsx` / `DropdownMenu.tsx`. Do not hand-roll focus trapping / dismiss / positioning.
 - **Compound components** (`Thing.Root` / `Thing.List` / `Thing.Item`…): if Radix has it, use Radix. If you must hand-roll (see `Tabs.tsx`), implement the **full** WAI-ARIA pattern for that widget — roles, `id`↔`aria-controls`/`aria-labelledby` wiring, roving `tabIndex`, and the arrow-key/Home/End keyboard model.
@@ -54,7 +54,7 @@ Every point applies to the new component:
 5. **Touch targets.** Interactive controls are **≥ 24×24 CSS px** (WCAG 2.5.8). Icon-only buttons: pad the hit area (`flex min-h-9 min-w-9 items-center justify-center`), don't leave it the size of the ~12px glyph. See `Toast.tsx` `ToastClose`, `Dialog.tsx` close button. Bare checkboxes/radios are `h-6 w-6` (24px).
 6. **State.** Toggle/expanded/selected/busy state is exposed via `aria-pressed` / `aria-expanded` / `aria-selected` / `aria-checked` / `aria-current` / `aria-busy`. Radix handles this for Radix-based components — verify custom logic didn't strip it.
 7. **Live regions.** Feedback that appears asynchronously uses a live region: `role="status"` (polite) for neutral/success, `role="alert"` (assertive) for errors. See `Alert.tsx` (`assertive` prop, auto-on for `variant="danger"`).
-8. **Motion.** Do not add per-component reduced-motion handling — `src/styles/globals.css` already collapses every animation/transition under `prefers-reduced-motion`. Just use `duration-base` and the `tailwindcss-animate` / `POPPER_ANIMATION_CLASSES` utilities.
+8. **Motion.** Do not add per-component reduced-motion handling — `src/styles/globals.css` already collapses every animation/transition under `prefers-reduced-motion`. Just use `duration-base` and the `tw-animate-css` / `POPPER_ANIMATION_CLASSES` utilities.
 9. **Interactive-looking-but-not.** If a prop only _looks_ interactive (e.g. `Card`'s `interactive`), say so in the JSDoc and tell the consumer to wrap in a real `<button>`/`<a>` — never fake it with `onClick` on a `<div>`.
 
 ## 4. Responsiveness gate
@@ -88,7 +88,7 @@ Prefer composing existing tokens. If a new one is truly needed, update **all fou
 
 1. `src/styles/tokens.css` — the `:root` block **and** the `[data-theme="light"]` block (a light value that clears contrast).
 2. `src/tokens/palettes.ts` — the `DARK_PALETTE` / `LIGHT_PALETTE` objects and the `ForsPalette` type.
-3. `tailwind.config.ts` — map it into the utility vocabulary.
+3. `src/styles/tailwind.css` — map it into the utility vocabulary (`@theme inline`).
 4. `src/tokens/__tests__/contrast.test.ts` — assert its fg/bg pairing passes AA in both themes.
 
 ## 7. Ship checklist

@@ -22,6 +22,6 @@ Everything below is enforced by GitHub, not by convention; the full policy (and 
 
 ## Dependencies
 
-Overlay/interactive components depend on [Radix UI](https://www.radix-ui.com/) primitives; styling depends on Tailwind CSS. Runtime dependencies are kept to those primitives plus `cmdk`, `react-day-picker`, `class-variance-authority`, `clsx`, `tailwind-merge` and `tailwindcss-animate`; `react`/`react-dom` are peers.
+Overlay/interactive components depend on [Radix UI](https://www.radix-ui.com/) primitives; styling depends on Tailwind CSS. Runtime dependencies are kept to those primitives plus `cmdk`, `react-day-picker`, `class-variance-authority`, `clsx` and `tailwind-merge`; `react`/`react-dom` are peers.
 
 **Current audit state: 0 findings** (`npm audit`, September 2026). Advisories that only reach devDependencies still get fixed rather than accepted, because the tree is small enough that a stuck transitive can be pinned with an `overrides` entry in `package.json` (as `uuid` is today) without touching what ships in `dist/`.

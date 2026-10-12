@@ -67,7 +67,7 @@ force horizontal page scroll:
 
 - Edit only component files under `src/components/` and their co-located
   `.stories.tsx` / `.test.tsx`.
-- Do **not** edit from an audit: `src/index.ts`, `tailwind.config.ts`,
+- Do **not** edit from an audit: `src/index.ts`,
   `src/styles/*`, `src/lib/*`, `src/theme/*`, `package.json`, `vitest.config.ts`,
   `.storybook/*`. If one needs to change, surface it in the report and let the
   orchestrator do it.

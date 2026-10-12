@@ -1,5 +1,0 @@
-{
-  "main": "../dist/tailwind-preset.cjs",
-  "module": "../dist/tailwind-preset.js",
-  "types": "../dist/tailwind-preset.d.ts"
-}

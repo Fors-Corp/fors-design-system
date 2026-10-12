@@ -5,7 +5,7 @@ import { cn } from "../lib/cn";
 const SIDEBAR_ICON_BUTTON_CLASS = cn(
   "inline-flex min-h-10 min-w-10 items-center justify-center rounded-md text-fg-muted transition-colors duration-base",
   "hover:bg-ink-surface-2 hover:text-fg",
-  "focus-visible:outline-none focus-visible:shadow-focus-ring"
+  "focus-visible:outline-hidden focus-visible:shadow-focus-ring"
 );
 
 const MENU_ICON = (
@@ -135,13 +135,12 @@ export function Sidebar({ children, label, className }: SidebarProps) {
             }}
             className={cn(
               "fixed inset-y-0 start-0 z-50 flex w-64 max-w-[calc(100vw-3rem)] flex-col border-e border-ink-border bg-ink-surface md:hidden",
-              "focus-visible:outline-none",
+              "focus-visible:outline-hidden",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-base",
               // The drawer anchors to the logical start side (left in LTR,
               // right in RTL, matching the desktop rail's flex-row position,
               // which flips automatically) — so which physical edge it
-              // slides to/from has to flip explicitly too; `start`/`end`
-              // have no slide-animation equivalent in tailwindcss-animate.
+              // slides to/from has to flip explicitly too.
               "ltr:data-[state=closed]:slide-out-to-left-full ltr:data-[state=open]:slide-in-from-left-full",
               "rtl:data-[state=closed]:slide-out-to-right-full rtl:data-[state=open]:slide-in-from-right-full",
               className
@@ -246,7 +245,7 @@ export const SidebarNavItem = React.forwardRef<HTMLAnchorElement, SidebarNavItem
             active
               ? "bg-ink-surface-2 text-accent"
               : "text-fg-secondary hover:bg-ink-surface-2 hover:text-fg",
-            "focus-visible:outline-none focus-visible:shadow-focus-ring",
+            "focus-visible:outline-hidden focus-visible:shadow-focus-ring",
             className
           )}
           {...props}

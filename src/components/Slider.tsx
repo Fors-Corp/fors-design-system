@@ -34,7 +34,7 @@ export const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.R
           <SliderPrimitive.Thumb
             key={i}
             aria-label={labelFor(i)}
-            className="block h-4 w-4 rounded-full border-2 border-accent bg-ink-surface shadow-sm transition-colors duration-base focus-visible:outline-none focus-visible:shadow-focus-ring disabled:opacity-50"
+            className="block h-4 w-4 rounded-full border-2 border-accent bg-ink-surface shadow-sm transition-colors duration-base focus-visible:outline-hidden focus-visible:shadow-focus-ring disabled:opacity-50"
           />
         ))}
       </SliderPrimitive.Root>

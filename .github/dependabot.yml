@@ -53,6 +53,15 @@ updates:
           - "@vitest/browser-playwright"
           - "vitest-axe"
 
+      # @tailwindcss/postcss pins an exact tailwindcss version as its own
+      # dependency, so the two must move in lockstep — bumped apart, the
+      # build plugin and the root tailwindcss would compile with different
+      # versions.
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+
       vite:
         patterns:
           - "vite"
@@ -73,6 +82,8 @@ updates:
       # Major bumps for these need a deliberate migration pass (breaking
       # config/API changes), not an automated PR — patch/minor still flow through.
       - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@tailwindcss/*"
         update-types: ["version-update:semver-major"]
       - dependency-name: "vite"
         update-types: ["version-update:semver-major"]
@@ -107,8 +118,6 @@ updates:
       - dependency-name: "react-day-picker"
         update-types: ["version-update:semver-major"]
       - dependency-name: "tailwind-merge"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "tailwindcss-animate"
         update-types: ["version-update:semver-major"]
       # typescript majors are gated on the lint toolchain, not on this repo:
       # typescript-eslint@8.71.0 (latest, no newer tag) peers
