@@ -97,6 +97,25 @@ import { IconPlus, IconTrash, IconUserCheck } from "@fors-corp/fors-design-syste
 
 Icons are named by what they mean in a Fors app, not by glyph, so consumers never depend on which upstream drawing backs "delete" or "sales". Defaults: 20px, 1.75 stroke, `currentColor` (so `className="text-danger"` recolors it), and `aria-hidden="true"` — the right default for an icon next to a label or inside a button that already has an accessible name. Every icon is a separate `/*#__PURE__*/` export, so only the ones you import reach your bundle. The set is deliberately small; add to it in this repo (one line in `src/icons/index.tsx`) rather than importing `lucide-react` directly in an app, so every Fors app shares the same vocabulary. Lucide is ISC-licensed; see `THIRD_PARTY_NOTICES.md`.
 
+### Admin components
+
+`CopyButton`, `EmptyState` and `PageHeader` cover the recurring pieces of an admin screen. The design system carries no copy of its own, so every visible or announced string is a prop you translate.
+
+```tsx
+import { CopyButton, EmptyState, PageHeader, Button } from "@fors-corp/fors-design-system";
+import { IconPackage } from "@fors-corp/fors-design-system/icons";
+
+// Copies `value`; the icon turns into a check for ~2 s and `copiedLabel` is announced politely.
+<CopyButton value={apiKey} label={t("copyKey")} copiedLabel={t("copied")} onError={showHint} />
+<CopyButton value={url} label={t("copyLink")} copiedLabel={t("copied")} showLabel variant="secondary" />
+
+// Page title row: breadcrumb above, actions at the end (they wrap under the title on narrow screens).
+<PageHeader title="Products" description="Everything in the catalogue." actions={<Button>New product</Button>} />
+
+// Nothing to show yet. `titleAs` sets the heading level (default h2); `PageHeader`'s default is h1.
+<EmptyState icon={<IconPackage size={24} />} title="No products yet" description="Add your first one." action={<Button>Add a product</Button>} />
+```
+
 ## Theming
 
 Dark is the default — nothing to configure. For an app that also needs light mode, import the theme utilities from the **server-safe entry** and own the switcher/persistence yourself:
@@ -194,7 +213,7 @@ git push --follow-tags
 
 ## Component set
 
-Typography: `Heading`, `Text`, `Label`. Forms: `Button` (with a built-in `loading` state), `Input`, `Textarea`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Slider`, `Calendar`/`DatePicker`. Overlays: `Dialog`, `DropdownMenu`, `Popover`, `Tooltip`, `Toast`/`Toaster`/`useToast`, `Command`/`CommandDialog` (command palette). Feedback & data: `Alert`, `Badge`, `Avatar`/`AvatarGroup`, `Spinner`, `Progress`, `Skeleton`, `Card`, `Table`, `Tabs`, `Accordion`, `Collapsible`, `Separator`. Navigation & layout: `Breadcrumb`, `Pagination`, `Sidebar`/`AppShell` (page shell with `SidebarProvider`/`useSidebar`). Every component supports `dir="rtl"`.
+Typography: `Heading`, `Text`, `Label`. Forms: `Button` (with a built-in `loading` state), `CopyButton`, `Input`, `Textarea`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Slider`, `Calendar`/`DatePicker`. Overlays: `Dialog`, `DropdownMenu`, `Popover`, `Tooltip`, `Toast`/`Toaster`/`useToast`, `Command`/`CommandDialog` (command palette). Feedback & data: `Alert`, `Badge`, `Avatar`/`AvatarGroup`, `Spinner`, `Progress`, `Skeleton`, `Card`, `Table`, `Tabs`, `Accordion`, `Collapsible`, `Separator`, `EmptyState`. Navigation & layout: `Breadcrumb`, `PageHeader`, `Pagination`, `Sidebar`/`AppShell` (page shell with `SidebarProvider`/`useSidebar`). Every component supports `dir="rtl"`.
 
 Overlay/select components are built on [Radix UI](https://www.radix-ui.com/) primitives for correct focus management and keyboard behavior; every component ships fully unstyled from Radix and is styled entirely through this repo's Tailwind token vocabulary. Open/close motion for every overlay comes from `tw-animate-css`, driven by Radix's own `data-state`/`data-side` attributes, and automatically collapses under `prefers-reduced-motion`.
 

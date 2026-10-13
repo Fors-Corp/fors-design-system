@@ -98,6 +98,9 @@ check("FORS_THEMES contains dark and light", () => {
 
 const EXPECTED_COMPONENT_EXPORTS = [
   "Button",
+  "CopyButton",
+  "EmptyState",
+  "PageHeader",
   "Badge",
   "Input",
   "Textarea",

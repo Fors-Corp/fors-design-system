@@ -26,9 +26,12 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
+  CopyButton,
+  EmptyState,
   Heading,
   Input,
   Label,
+  PageHeader,
   Pagination,
   PaginationEllipsis,
   PaginationItem,
@@ -219,6 +222,34 @@ const cases: Record<string, React.ReactElement> = {
         </SidebarNav>
       </Sidebar>
     </SidebarProvider>
+  ),
+  "CopyButton/icon-only": (
+    <CopyButton value="sk_live_123" label="Copy API key" copiedLabel="Copied" />
+  ),
+  "CopyButton/with-label": (
+    <CopyButton
+      value="sk_live_123"
+      label="Copy API key"
+      copiedLabel="Copied"
+      showLabel
+      variant="secondary"
+    />
+  ),
+  "EmptyState/full": (
+    <EmptyState
+      icon={<svg />}
+      title="No products yet"
+      description="Add your first one."
+      action={<Button>Add a product</Button>}
+    />
+  ),
+  "PageHeader/full": (
+    <PageHeader
+      title="Products"
+      description="Everything in the catalogue."
+      breadcrumb={<nav aria-label="Breadcrumb">Home</nav>}
+      actions={<Button>New product</Button>}
+    />
   ),
   "Sidebar/collapsed": (
     <SidebarProvider defaultCollapsed>
