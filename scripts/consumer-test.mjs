@@ -104,6 +104,21 @@ check("server-safe theme entry ran in the root layout (anti-flash script inlined
   html.includes('localStorage.getItem("fors-theme")')
 );
 
+const isolatedHtml = readFileSync(path.join(fixture, ".next/server/app/isolated.html"), "utf8");
+check("isolated Button entry renders directly inside a Server Component tree", () =>
+  isolatedHtml.includes('data-testid="isolated-button"')
+);
+check(
+  "isolated Button retains its loading behavior and styling",
+  () =>
+    isolatedHtml.includes('aria-busy="true"') &&
+    isolatedHtml.includes('data-fors="button"') &&
+    isolatedHtml.includes("bg-ink-surface-2")
+);
+check("isolated hook entry supports server rendering within a Client Component", () =>
+  isolatedHtml.includes('data-testid="isolated-token">hydrating</output>')
+);
+
 console.log("");
 if (failures > 0) {
   console.error(`${failures} consumer check(s) failed.`);
