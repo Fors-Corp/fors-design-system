@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { FORS_PALETTES, type ForsPalette } from "../palettes";
+import { FOCUS_RINGS, FORS_PALETTES, type ForsPalette } from "../palettes";
 
 const AA_NORMAL_TEXT = 4.5;
+// WCAG 1.4.11 Non-text Contrast: a focus indicator needs 3:1 against the
+// colors it sits next to.
+const AA_NON_TEXT = 3;
 
 function hexToRgb(hex: string): [number, number, number] {
   const clean = hex.replace("#", "");
@@ -16,17 +19,31 @@ function channelToLinear(c: number): number {
   return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
 }
 
-function relativeLuminance(hex: string): number {
-  const [r, g, b] = hexToRgb(hex).map(channelToLinear);
+function relativeLuminance(rgb: [number, number, number]): number {
+  const [r, g, b] = rgb.map(channelToLinear);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function contrastRatio(hexA: string, hexB: string): number {
-  const lA = relativeLuminance(hexA);
-  const lB = relativeLuminance(hexB);
+function contrastRatioRgb(a: [number, number, number], b: [number, number, number]): number {
+  const lA = relativeLuminance(a);
+  const lB = relativeLuminance(b);
   const lighter = Math.max(lA, lB);
   const darker = Math.min(lA, lB);
   return (lighter + 0.05) / (darker + 0.05);
+}
+
+function contrastRatio(hexA: string, hexB: string): number {
+  return contrastRatioRgb(hexToRgb(hexA), hexToRgb(hexB));
+}
+
+/** Source-over composite of an `rgba(r, g, b, a)` token onto an opaque hex,
+ * rounded to 8-bit channels the way the browser paints it. */
+function compositeOver(rgba: string, bgHex: string): [number, number, number] {
+  const m = /^rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/.exec(rgba);
+  if (!m) throw new Error(`not an rgba() token: ${rgba}`);
+  const [r, g, b, a] = m.slice(1).map(Number);
+  const bg = hexToRgb(bgHex);
+  return [r, g, b].map((c, i) => Math.round(c * a + bg[i] * (1 - a))) as [number, number, number];
 }
 
 /** Every fg/bg pairing an existing component actually renders. */
@@ -72,6 +89,26 @@ describe("Fors token contrast (WCAG AA, 4.5:1)", () => {
         it(`${label} passes AA`, () => {
           const ratio = contrastRatio(fg, bg);
           expect(ratio).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+        });
+      }
+    });
+  }
+});
+
+describe("Fors focus ring contrast (WCAG 1.4.11, 3:1)", () => {
+  for (const [themeName, palette] of Object.entries(FORS_PALETTES)) {
+    const ring = FOCUS_RINGS[themeName as keyof typeof FOCUS_RINGS];
+    describe(`${themeName} theme`, () => {
+      // shadow-focus-ring is a 3px ring outside the control, so what it sits
+      // next to is whichever ink surface the control is placed on.
+      for (const [label, surface] of [
+        ["bg", palette.bg],
+        ["surface", palette.surface],
+        ["surface-2", palette.surface2],
+      ] as const) {
+        it(`focus ring on ${label} reaches 3:1`, () => {
+          const ratio = contrastRatioRgb(compositeOver(ring, surface), hexToRgb(surface));
+          expect(ratio).toBeGreaterThanOrEqual(AA_NON_TEXT);
         });
       }
     });
