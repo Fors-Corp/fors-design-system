@@ -61,7 +61,9 @@
   --fors-warning-subtle: #332a10;
   --fors-warning-fg: #241d08;
 
-  --fors-focus-ring: rgba(22, 199, 176, 0.45);
+  /* 0.7 alpha is the lowest that keeps the composited ring >= 3:1 (WCAG 1.4.11)
+     on every ink surface in both themes; light needs >= 0.68. */
+  --fors-focus-ring: rgba(22, 199, 176, 0.7);
 
   /* Type families (theme-independent). Override --fors-font-sans /
      --fors-font-heading on :root to swap in self-hosted faces — e.g. point
@@ -126,7 +128,7 @@
   --fors-warning-subtle: #fdf3d9;
   --fors-warning-fg: #ffffff;
 
-  --fors-focus-ring: rgba(11, 108, 94, 0.45);
+  --fors-focus-ring: rgba(11, 108, 94, 0.7);
 
   /* Dark theme's 0.4-0.5 alpha black shadows read as a harsh hard drop-shadow
      on white surfaces — light theme needs much lower alpha to read as a soft

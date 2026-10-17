@@ -88,3 +88,10 @@ export const LIGHT_PALETTE: ForsPalette = {
 };
 
 export const FORS_PALETTES = { dark: DARK_PALETTE, light: LIGHT_PALETTE } as const;
+
+/** --fors-focus-ring per theme, verbatim from tokens.css (translucent, so the
+ * test composites it over each surface). Internal — not part of ForsPalette. */
+export const FOCUS_RINGS: Record<keyof typeof FORS_PALETTES, string> = {
+  dark: "rgba(22, 199, 176, 0.7)",
+  light: "rgba(11, 108, 94, 0.7)",
+};
