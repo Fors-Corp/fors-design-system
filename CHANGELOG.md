@@ -8,6 +8,12 @@
 > was to rename the package to `@fors-corp/fors-design-system`; the changes
 > described under both headings ship in 3.0.0.
 
+## 4.1.2
+
+### Patch Changes
+
+- 801de1d: Fix oversized client bundles by providing isolated `@fors-corp/fors-design-system/button` and `@fors-corp/fors-design-system/use-fors-tokens` entry points. Both preserve their client boundaries, public types, styling, and behavior without loading unrelated components. Existing root imports remain supported.
+
 ## 4.1.1
 
 ### Patch Changes
