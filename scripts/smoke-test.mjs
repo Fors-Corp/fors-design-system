@@ -59,6 +59,89 @@ const mod = await import(path.resolve(distIndex));
 const cjs = require(path.resolve(distCjs));
 const theme = await import(path.resolve(distTheme));
 
+const packageName = "@fors-corp/fors-design-system";
+const isolatedEntries = [
+  {
+    entry: "button",
+    exports: ["Button"],
+    type: "ButtonProps",
+    sources: ["button-entry.ts", "components/Button.tsx", "components/Spinner.tsx", "lib/cn.ts"],
+    dependencies: [
+      "react",
+      "react/jsx-runtime",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "clsx",
+      "tailwind-merge",
+    ],
+  },
+  {
+    entry: "use-fors-tokens",
+    exports: ["useForsTokens"],
+    type: "ForsTokenName",
+    sources: ["use-fors-tokens-entry.ts", "hooks/useForsTokens.ts"],
+    dependencies: ["react"],
+  },
+];
+
+for (const { entry, exports: names, type, sources, dependencies } of isolatedEntries) {
+  const specifier = `${packageName}/${entry}`;
+  const esm = await import(specifier);
+  const commonjs = require(specifier);
+  check(`${specifier} shares its ESM implementation with the existing root exports`, () =>
+    names.every((name) => esm[name] === mod[name])
+  );
+  for (const [format, loaded] of [
+    ["ESM", esm],
+    ["CJS", commonjs],
+  ]) {
+    check(
+      `${specifier} resolves through public ${format} exports`,
+      () => Object.keys(loaded).sort().join(",") === [...names].sort().join(",")
+    );
+  }
+  for (const [extension, declaration] of [
+    ["js", "d.ts"],
+    ["cjs", "d.cts"],
+  ]) {
+    const entryPath = path.join(root, `dist/${entry}.${extension}`);
+    check(`${entry}.${extension} preserves its client boundary`, () =>
+      /^\s*(?:["']use strict["'];\s*)?["']use client["'];/.test(readFileSync(entryPath, "utf8"))
+    );
+    check(`${entry}.${declaration} exposes ${type}`, () =>
+      new RegExp(`\\b${type}\\b`).test(
+        readFileSync(path.join(root, `dist/${entry}.${declaration}`), "utf8")
+      )
+    );
+    check(`${entry}.${extension} graph excludes unrelated components and dependencies`, () => {
+      const visited = new Set();
+      function visit(file) {
+        if (visited.has(file)) return;
+        visited.add(file);
+        const code = readFileSync(file, "utf8");
+        const map = JSON.parse(readFileSync(`${file}.map`, "utf8"));
+        for (const source of map.sources) {
+          const relative = path.relative(
+            path.join(root, "src"),
+            path.resolve(path.dirname(file), source)
+          );
+          if (!sources.includes(relative)) throw new Error(`unexpected source: ${relative}`);
+        }
+        for (const match of code.matchAll(
+          /(?:from\s*|import\s*(?:\(\s*)?|require\(\s*)["']([^"']+)["']/g
+        )) {
+          const dependency = match[1];
+          if (dependency.startsWith(".")) visit(path.resolve(path.dirname(file), dependency));
+          else if (!dependencies.includes(dependency))
+            throw new Error(`unexpected dependency: ${dependency}`);
+        }
+      }
+      visit(entryPath);
+      return true;
+    });
+  }
+}
+
 check("CJS build exposes the same exports as ESM", () => {
   const esmKeys = Object.keys(mod).sort();
   const cjsKeys = Object.keys(cjs).sort();

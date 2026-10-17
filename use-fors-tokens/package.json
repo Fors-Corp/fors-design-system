@@ -1,0 +1,5 @@
+{
+  "main": "../dist/use-fors-tokens.cjs",
+  "module": "../dist/use-fors-tokens.js",
+  "types": "../dist/use-fors-tokens.d.ts"
+}

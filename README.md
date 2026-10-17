@@ -61,6 +61,23 @@ Package entries:
 
 Runtime dependencies (Radix primitives, `cmdk`, `react-day-picker`, `lucide-react`, `class-variance-authority`, `tailwind-merge`) are regular `dependencies` of the package and install with it; only `react` / `react-dom` (18 or 19) are peers you provide. Tailwind is **not** required to use the components — `styles.css` is precompiled.
 
+### Isolated client imports
+
+For a small client bundle (especially with Next.js App Router), use the focused
+entry points instead of the root barrel:
+
+```tsx
+import { Button, type ButtonProps } from "@fors-corp/fors-design-system/button";
+import { useForsTokens, type ForsTokenName } from "@fors-corp/fors-design-system/use-fors-tokens";
+```
+
+Both entries ship `"use client"` and ESM, CJS, and TypeScript exports. The Button
+entry includes only Button, its loading Spinner, and their styling helpers; the
+hook entry depends only on React. Neither loads Calendar, Command, or unrelated
+Radix primitives. Use the hook inside your own Client Component, not a Server
+Component. Keep importing `styles.css` as before. Existing root imports remain
+supported with identical styling and behavior; no bundler configuration is needed.
+
 ### Tailwind
 
 The components are already styled by `styles.css`; you don't need Tailwind to use them. If your app _does_ use Tailwind (v4 — the v3 preset was removed in 4.0.0) and you want the Fors token vocabulary available in your own markup, add the integration to your global stylesheet:

@@ -26,6 +26,26 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./button": {
+      "import": {
+        "types": "./dist/button.d.ts",
+        "default": "./dist/button.js"
+      },
+      "require": {
+        "types": "./dist/button.d.cts",
+        "default": "./dist/button.cjs"
+      }
+    },
+    "./use-fors-tokens": {
+      "import": {
+        "types": "./dist/use-fors-tokens.d.ts",
+        "default": "./dist/use-fors-tokens.js"
+      },
+      "require": {
+        "types": "./dist/use-fors-tokens.d.cts",
+        "default": "./dist/use-fors-tokens.cjs"
+      }
+    },
     "./theme": {
       "import": {
         "types": "./dist/theme.d.ts",
@@ -54,6 +74,8 @@
   },
   "files": [
     "dist",
+    "button",
+    "use-fors-tokens",
     "theme",
     "icons",
     "THIRD_PARTY_NOTICES.md"
@@ -94,6 +116,16 @@
     "test:consumer": "npm run build && node scripts/consumer-test.mjs"
   },
   "size-limit": [
+    {
+      "name": "Isolated Button entry (including dependencies, brotli)",
+      "path": "dist/button.js",
+      "limit": "12 KB"
+    },
+    {
+      "name": "Isolated useForsTokens entry (brotli)",
+      "path": "dist/use-fors-tokens.js",
+      "limit": "1 KB"
+    },
     {
       "name": "JS bundle (import * from index.js, incl. Radix + cmdk + react-day-picker deps, brotli)",
       "path": "dist/index.js",

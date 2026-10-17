@@ -6,6 +6,8 @@ export default defineConfig({
   // server-safe utilities entry with no directive.
   entry: {
     index: "src/index.ts",
+    button: "src/button-entry.ts",
+    "use-fors-tokens": "src/use-fors-tokens-entry.ts",
     theme: "src/theme-entry.ts",
     // Pure SVG components, no hooks — server-safe, so no directive. Lucide
     // stays external like the Radix packages (a declared dependency).
