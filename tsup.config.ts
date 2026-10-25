@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup";
+import { forsTreeshakePlugin } from "./scripts/fors-treeshake-plugin";
 
 export default defineConfig({
   // `index` is the client component bundle (its source starts with
@@ -21,4 +22,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   external: ["react", "react-dom"],
+  // Annotate forwardRef/memo/cva as PURE and strip displayName writes from the
+  // compile input, so a named import of one component drops the rest.
+  esbuildPlugins: [forsTreeshakePlugin()],
 });
