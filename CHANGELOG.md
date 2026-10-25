@@ -8,6 +8,12 @@
 > was to rename the package to `@fors-corp/fors-design-system`; the changes
 > described under both headings ship in 3.0.0.
 
+## 4.1.4
+
+### Patch Changes
+
+- e36e2f7: Named imports now tree-shake: the build annotates `forwardRef`/`memo`/`cva` calls as pure and strips the `displayName` writes that kept every component alive, so importing `Button`, `Dialog` and `Card` no longer ships Radix Select, cmdk, Toast or Slider (232 kB to 78 kB minified in a consumer probe). Same plugin forsight already uses.
+
 ## 4.1.3
 
 ### Patch Changes
