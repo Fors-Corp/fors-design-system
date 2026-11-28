@@ -8,6 +8,23 @@
 > was to rename the package to `@fors-corp/fors-design-system`; the changes
 > described under both headings ship in 3.0.0.
 
+## 4.2.0
+
+### Minor Changes
+
+- 4a43c3b: Add the Fors Corp brand logos (Nov 2026 rebrand: Signal Blue `#2D5BFF`, ink `#10131C`).
+  
+  - New `@fors-corp/fors-design-system/brand` entry with `ForsLockup` and `ForsMonogram` React components. The letterforms take `currentColor` so they follow the theme, and the slash stays Signal Blue unless `variant="mono"`. Each is an image named "Fors Corp" by default (`title` to rename, `decorative` to hide it when the name is already visible). Also exports `FORS_SIGNAL_BLUE` and `FORS_INK`. Server-safe: no hooks, no client directive.
+  - The original brand files ship under `@fors-corp/fors-design-system/assets/brand/`: `svg/` (lockup, monogram, app icon and social icon in colour, black, white and white-mono) and `favicons/` (`favicon.svg`, `favicon.ico`, PNGs from 16 to 512 px).
+
+### Patch Changes
+
+- bc5802f: Bulk dependency update, and Calendar day buttons now pass WCAG 2.5.3 Label in Name.
+  
+  - `lucide-react`: 1.57.0 -> 1.83.0 (production dependency)
+  - `tailwind-merge`: 3.7.0 -> 3.7.1 (production dependency)
+  - Calendar / DatePicker day buttons are now labelled with `Intl`'s full date style ("Tuesday, September 1, 2026") instead of react-day-picker's default ordinal form ("Tuesday, September 1st, 2026"), so the visible day number is part of the accessible name. The label follows the calendar's `locale`, keeps the "Today, " prefix and ", selected" suffix, and a consumer's own `labels.labelDayButton` still wins. axe-core 4.14 flags the old label as `label-content-name-mismatch`.
+
 ## 4.1.4
 
 ### Patch Changes
