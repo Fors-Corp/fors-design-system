@@ -29,6 +29,7 @@ notes() { # CHANGELOG section for version $1, without its heading
 
 git fetch --quiet --tags origin
 
+missing=()
 versions=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+$' CHANGELOG.md | sed 's/^## //' | sort -V)
 
 for v in $versions; do
@@ -41,7 +42,16 @@ for v in $versions; do
   fi
   echo "tag $tag -> ${commit:0:7}"
   dry git tag -a "$tag" "$commit" -m "$tag" -m "$(notes "$v")"
-  dry git push origin "refs/tags/$tag"
+  # GITHUB_TOKEN can't push a ref to a commit whose .github/workflows differ
+  # from the default branch ("refusing to allow a GitHub App to create or
+  # update workflow ... without `workflows` permission"), which is the case
+  # for most old release commits. Don't fail the release over a backfill:
+  # warn with the exact command for a maintainer to run, and move on.
+  if ! dry git push origin "refs/tags/$tag"; then
+    git tag -d "$tag" >/dev/null
+    echo "::warning::$tag could not be pushed with GITHUB_TOKEN. Push it by hand: git tag -a $tag ${commit:0:12} -m $tag && git push origin $tag"
+    missing+=("$tag")
+  fi
 done
 
 for v in $versions; do
@@ -53,3 +63,7 @@ for v in $versions; do
   dry gh release create "$tag" --repo "$repo" --verify-tag --latest=false \
     --title "$tag" --notes-file "${RUNNER_TEMP:-/tmp}/notes-$v.md"
 done
+
+if [ ${#missing[@]} -gt 0 ]; then
+  echo "::notice::Tags still missing (need a maintainer push): ${missing[*]}"
+fi
