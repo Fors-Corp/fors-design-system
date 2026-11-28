@@ -6,6 +6,7 @@ import {
   SelectionState,
   type DayButtonProps,
   type DayPickerProps,
+  type Labels,
 } from "react-day-picker";
 import { cn } from "../lib/cn";
 import { Popover, PopoverTrigger, PopoverContent } from "./Popover";
@@ -87,11 +88,32 @@ function CalendarDayButton({ className, day: _day, modifiers, ...props }: DayBut
  * support of its own (no `forwardRef`, no `rootRef` prop), so there's
  * nothing real to forward here.
  */
-export function Calendar({ classNames, components, ...props }: CalendarProps) {
+/**
+ * Day-button accessible name. react-day-picker's default formats with
+ * date-fns `PPPP`, which in English renders the day as an ordinal
+ * ("September 1st") while the button only shows "1". The visible digit is
+ * then not part of the accessible name, which fails WCAG 2.5.3 Label in Name
+ * (axe `label-content-name-mismatch`, on by default since axe-core 4.14).
+ * `Intl`'s full date style never uses ordinals and stays locale-correct
+ * ("Tuesday, September 1, 2026", "martes, 1 de septiembre de 2026").
+ * The today/selected suffixes match react-day-picker's own.
+ */
+const labelDayButton: Labels["labelDayButton"] = (date, modifiers, options) => {
+  let label = new Intl.DateTimeFormat(options?.locale?.code, {
+    dateStyle: "full",
+    timeZone: options?.timeZone,
+  }).format(date);
+  if (modifiers.today) label = `Today, ${label}`;
+  if (modifiers.selected) label = `${label}, selected`;
+  return label;
+};
+
+export function Calendar({ classNames, components, labels, ...props }: CalendarProps) {
   return (
     <DayPicker
       classNames={{ ...defaultClassNames, ...classNames }}
       components={{ DayButton: CalendarDayButton, ...components }}
+      labels={{ labelDayButton, ...labels }}
       {...props}
     />
   );
