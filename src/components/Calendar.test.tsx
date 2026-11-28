@@ -18,10 +18,44 @@ describe("Calendar", () => {
       <Calendar mode="single" selected={new Date(2026, 8, 8)} defaultMonth={new Date(2026, 8, 1)} />
     );
     expect(screen.getByRole("grid", { name: /September 2026/i })).toBeInTheDocument();
-    // Each day button's own accessible name is the full formatted date (e.g.
-    // "Tuesday, September 8th, 2026, selected"), not just the visible digit —
-    // react-day-picker's own `labelDayButton`, not something this wrapper adds.
-    expect(screen.getByRole("button", { name: /September 8.*selected/i })).toBeInTheDocument();
+    // Each day button's own accessible name is the full formatted date, not
+    // just the visible digit.
+    expect(
+      screen.getByRole("button", { name: "Tuesday, September 8, 2026, selected" })
+    ).toBeInTheDocument();
+  });
+
+  it("keeps each day's visible number in its accessible name (WCAG 2.5.3 Label in Name)", async () => {
+    // react-day-picker's default label is "Tuesday, September 1st, 2026": the
+    // visible "1" is not a word in it, which axe-core 4.14+ flags as
+    // label-content-name-mismatch.
+    const { container } = render(<Calendar mode="single" defaultMonth={new Date(2026, 8, 1)} />);
+    for (const day of ["1", "2", "3", "21", "22", "23"]) {
+      const button = screen.getByRole("button", { name: new RegExp(`September ${day},`) });
+      expect(button).toHaveTextContent(day);
+      expect(button.getAttribute("aria-label")).not.toMatch(/\d(st|nd|rd|th)\b/);
+    }
+    expect(
+      await axe(container, { rules: { "label-content-name-mismatch": { enabled: true } } })
+    ).toHaveNoViolations();
+  });
+
+  it("formats day labels in the calendar's locale and still lets a consumer override them", () => {
+    const { unmount } = render(
+      <Calendar mode="single" locale={es} defaultMonth={new Date(2026, 8, 1)} />
+    );
+    expect(
+      screen.getByRole("button", { name: /^martes, 1 de septiembre de 2026/ })
+    ).toBeInTheDocument();
+    unmount();
+    render(
+      <Calendar
+        mode="single"
+        defaultMonth={new Date(2026, 8, 1)}
+        labels={{ labelDayButton: (date) => `Day ${date.getDate()}` }}
+      />
+    );
+    expect(screen.getByRole("button", { name: "Day 1" })).toBeInTheDocument();
   });
 
   it("gives the month navigation buttons real accessible names", () => {
