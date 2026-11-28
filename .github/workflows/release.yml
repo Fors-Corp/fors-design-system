@@ -90,3 +90,16 @@ jobs:
             sleep 10
           done
           echo "no parked pull_request runs found for changeset-release/main"
+
+      # Every CHANGELOG version gets an annotated vX.Y.Z tag and a GitHub
+      # Release, even one whose publish failed or predates this step (2.2.1
+      # and 2.2.2 were bumped but never published, so Changesets never tagged
+      # them). Only fills gaps; never moves an existing tag. Runs on the
+      # version-PR path too, since a gap can exist either way.
+      - name: Tag and release every CHANGELOG version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          scripts/sync-release-tags.sh
