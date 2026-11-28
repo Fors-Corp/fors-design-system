@@ -58,6 +58,7 @@ Package entries:
 | `@fors-corp/fors-design-system/tailwind.css` | Optional, Tailwind **v4** apps: `@theme` mapping so your own markup can use the token utilities (`bg-accent`, `text-fg-muted`, `rounded-md`, …). See [Tailwind](#tailwind).                                                                                        |
 | `@fors-corp/fors-design-system/fonts.css`    | Optional: loads the brand faces from Google Fonts. See [Fonts](#fonts).                                                                                                                                                                                            |
 | `@fors-corp/fors-design-system/icons`        | The icon set: a curated, Fors-named subset of Lucide (`IconPlus`, `IconTrash`, `IconReceipt`, …). Server-safe, tree-shakeable per icon. See [Icons](#icons).                                                                                                       |
+| `@fors-corp/fors-design-system/brand`        | The Fors Corp logos as React components (`ForsLockup`, `ForsMonogram`). Server-safe. The original SVG, favicon and app-icon files ship under `@fors-corp/fors-design-system/assets/brand/`. See [Brand logos](#brand-logos).                                       |
 
 Runtime dependencies (Radix primitives, `cmdk`, `react-day-picker`, `lucide-react`, `class-variance-authority`, `tailwind-merge`) are regular `dependencies` of the package and install with it; only `react` / `react-dom` (18 or 19) are peers you provide. Tailwind is **not** required to use the components — `styles.css` is precompiled.
 
@@ -113,6 +114,20 @@ import { IconPlus, IconTrash, IconUserCheck } from "@fors-corp/fors-design-syste
 ```
 
 Icons are named by what they mean in a Fors app, not by glyph, so consumers never depend on which upstream drawing backs "delete" or "sales". Defaults: 20px, 1.75 stroke, `currentColor` (so `className="text-danger"` recolors it), and `aria-hidden="true"` — the right default for an icon next to a label or inside a button that already has an accessible name. Every icon is a separate `/*#__PURE__*/` export, so only the ones you import reach your bundle. The set is deliberately small; add to it in this repo (one line in `src/icons/index.tsx`) rather than importing `lucide-react` directly in an app, so every Fors app shares the same vocabulary. Lucide is ISC-licensed; see `THIRD_PARTY_NOTICES.md`.
+
+### Brand logos
+
+```tsx
+import { ForsLockup, ForsMonogram } from "@fors-corp/fors-design-system/brand";
+
+<ForsLockup className="h-10 w-auto text-fg" />           // primary logo, named "Fors Corp"
+<a href="/" aria-label="Fors Corp home">
+  <ForsMonogram decorative className="h-8 w-auto" />    // name comes from the link
+</a>
+<ForsMonogram variant="mono" height={24} />             // single colour
+```
+
+The letterforms use `currentColor`, so the logo follows your text colour and flips with the theme (ink on light, white on dark). The slash stays Signal Blue (`#2D5BFF`) unless `variant="mono"`. The original files (lockup, monogram, app icon, social icon and favicons, Nov 2026 brand) are in the package for anything that needs a file rather than a component, for example `@fors-corp/fors-design-system/assets/brand/favicons/favicon.svg` or `.../assets/brand/svg/fors_lockup_white.svg`.
 
 ### Admin components
 

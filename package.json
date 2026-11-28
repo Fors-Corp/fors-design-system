@@ -66,10 +66,21 @@
         "default": "./dist/icons.cjs"
       }
     },
+    "./brand": {
+      "import": {
+        "types": "./dist/brand.d.ts",
+        "default": "./dist/brand.js"
+      },
+      "require": {
+        "types": "./dist/brand.d.cts",
+        "default": "./dist/brand.cjs"
+      }
+    },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
     "./tailwind.css": "./dist/tailwind.css",
     "./fonts.css": "./dist/fonts.css",
+    "./assets/brand/*": "./assets/brand/*",
     "./package.json": "./package.json"
   },
   "files": [
@@ -78,6 +89,8 @@
     "use-fors-tokens",
     "theme",
     "icons",
+    "brand",
+    "assets/brand",
     "THIRD_PARTY_NOTICES.md"
   ],
   "repository": {
@@ -107,7 +120,7 @@
     "test:coverage": "vitest run --project=unit --coverage",
     "test:storybook": "vitest --project=storybook",
     "test:storybook:ci": "vitest run --project=storybook",
-    "test:package": "npm run build && publint --strict && attw --pack . --exclude-entrypoints styles.css tailwind.css fonts.css tokens.css package.json",
+    "test:package": "npm run build && publint --strict && attw --pack . --exclude-entrypoints styles.css tailwind.css fonts.css tokens.css package.json assets/brand/*",
     "size": "npm run build && size-limit",
     "smoke": "node scripts/smoke-test.mjs",
     "changeset": "changeset",
@@ -141,6 +154,11 @@
       "name": "Icons entry (import * from icons.js, bundled Lucide subset, brotli)",
       "path": "dist/icons.js",
       "limit": "8 KB"
+    },
+    {
+      "name": "Brand entry (ForsMonogram + ForsLockup, brotli)",
+      "path": "dist/brand.js",
+      "limit": "2 KB"
     }
   ],
   "peerDependencies": {

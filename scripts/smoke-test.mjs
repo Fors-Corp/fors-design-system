@@ -283,6 +283,27 @@ check("icons entry keeps per-icon /*#__PURE__*/ annotations (tree-shakeable)", (
   return pure >= EXPECTED_ICON_EXPORTS.length;
 });
 
+const distBrand = path.join(root, "dist/brand.js");
+check("dist/brand.js exists (brand entry)", () => existsSync(distBrand));
+check("dist/brand.cjs exists", () => existsSync(path.join(root, "dist/brand.cjs")));
+check("dist/brand.d.ts exists", () => existsSync(path.join(root, "dist/brand.d.ts")));
+const brand = await import(path.resolve(distBrand));
+for (const name of ["ForsMonogram", "ForsLockup", "FORS_SIGNAL_BLUE", "FORS_INK"]) {
+  check(`brand entry exports "${name}"`, () => brand[name] !== undefined);
+}
+check(
+  "brand entry has no client directive (server-safe)",
+  () => !readFileSync(distBrand, "utf8").includes("use client")
+);
+for (const file of [
+  "svg/fors_lockup.svg",
+  "svg/fors_monogram.svg",
+  "favicons/favicon.svg",
+  "favicons/favicon.ico",
+]) {
+  check(`ships assets/brand/${file}`, () => existsSync(path.join(root, "assets/brand", file)));
+}
+
 check("exports cn helper", () => {
   const skip = false;
   return typeof mod.cn === "function" && mod.cn("a", skip && "b", "c") === "a c";

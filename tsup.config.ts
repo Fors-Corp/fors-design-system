@@ -13,6 +13,8 @@ export default defineConfig({
     // Pure SVG components, no hooks — server-safe, so no directive. Lucide
     // stays external like the Radix packages (a declared dependency).
     icons: "src/icons/index.tsx",
+    // Brand marks: pure SVG, no hooks, no dependencies — server-safe.
+    brand: "src/brand/index.tsx",
   },
   // ESM is the primary target; the CJS build is a compatibility shim so
   // `require()` from CommonJS tooling still resolves (validated by

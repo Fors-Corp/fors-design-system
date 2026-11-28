@@ -1,0 +1,5 @@
+{
+  "main": "../dist/brand.cjs",
+  "module": "../dist/brand.js",
+  "types": "../dist/brand.d.ts"
+}
