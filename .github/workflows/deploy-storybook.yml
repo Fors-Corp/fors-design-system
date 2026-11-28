@@ -1,7 +1,14 @@
 name: Deploy Storybook
 
+# Deploys after CI passes on main, the same gate as Release. A plain `push`
+# trigger missed every commit merged by the Dependabot auto-merge workflow:
+# pushes made with GITHUB_TOKEN never start other workflows, which left the
+# site on 25 Oct 2026 while main moved on. CI's daily schedule also completes
+# on main, so the site is at most a day behind even then.
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -17,9 +24,12 @@ permissions:
 
 jobs:
   build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
