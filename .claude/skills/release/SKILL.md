@@ -111,12 +111,18 @@ grep -E '^## ' CHANGELOG.md | head -5         # every released version has a hea
 git tag --list 'v*' --sort=-v:refname          # every version heading has a matching tag
 ```
 
-Every `## X.Y.Z` heading in `CHANGELOG.md` must have a `vX.Y.Z` tag, and
-`package.json`'s `version` must equal the newest heading. If a version was
-bumped but never tagged, tag its release commit now:
+Every `## X.Y.Z` heading in `CHANGELOG.md` must have a `vX.Y.Z` tag **and a
+GitHub Release**, and `package.json`'s `version` must equal the newest heading.
+
+This is enforced automatically: the last step of the `Release` workflow runs
+`scripts/sync-release-tags.sh`, which tags any untagged CHANGELOG version on
+its release commit (the first commit whose `package.json` carries it) and
+creates a GitHub Release, with that version's CHANGELOG section as notes, for
+any tag without one. It only fills gaps and never moves a tag. Preview it
+locally with:
 
 ```bash
-git tag -a vX.Y.Z <release-commit-sha> -m "vX.Y.Z — see CHANGELOG.md"
+DRY_RUN=1 GITHUB_REPOSITORY=Fors-Corp/fors-design-system scripts/sync-release-tags.sh
 ```
 
 ## One-time repo setup this depends on (already done, noted for reference)
