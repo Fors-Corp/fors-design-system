@@ -9,6 +9,12 @@
 # - A tag with no GitHub Release gets one, with that version's CHANGELOG
 #   section as its notes. Backfilled releases are never marked "latest".
 #
+# Only main counts: versions come from main's CHANGELOG.md and tags go on
+# commits reachable from main. changesets/action leaves the unmerged
+# "version packages" commit checked out when it opens the release PR, and
+# tagging that would put vX.Y.Z on a commit that never lands (rebase merges
+# rewrite it). Set RELEASE_REF to use another ref.
+#
 # Idempotent: a second run with nothing missing changes nothing. Existing tags
 # are never moved or rewritten.
 #
@@ -17,6 +23,7 @@
 set -euo pipefail
 
 repo="${GITHUB_REPOSITORY:?set GITHUB_REPOSITORY=owner/name}"
+ref="${RELEASE_REF:-origin/main}"
 dry() { if [ "${DRY_RUN:-}" = 1 ]; then echo "  (dry run) $*"; else "$@"; fi; }
 
 notes() { # CHANGELOG section for version $1, without its heading
@@ -24,18 +31,18 @@ notes() { # CHANGELOG section for version $1, without its heading
     $0 == h { found = 1; next }
     found && /^## / { exit }
     found { print }
-  ' CHANGELOG.md | sed -e '/./,$!d'
+  ' <(git show "$ref:CHANGELOG.md") | sed -e '/./,$!d'
 }
 
-git fetch --quiet --tags origin
+git fetch --quiet --tags origin "+refs/heads/main:refs/remotes/origin/main"
 
 missing=()
-versions=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+$' CHANGELOG.md | sed 's/^## //' | sort -V)
+versions=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+$' <(git show "$ref:CHANGELOG.md") | sed 's/^## //' | sort -V)
 
 for v in $versions; do
   tag="v$v"
   if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then continue; fi
-  commit=$(git log --reverse --format=%H -G"\"version\": \"$v\"" -- package.json | awk "NR == 1")
+  commit=$(git log --reverse --format=%H -G"\"version\": \"$v\"" "$ref" -- package.json | awk "NR == 1")
   if [ -z "$commit" ] || ! git show "$commit:package.json" | grep -F "\"version\": \"$v\"" >/dev/null; then
     echo "::warning::$tag: no commit sets package.json to $v; left untagged"
     continue
